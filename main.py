@@ -9,10 +9,10 @@ def hello():
 
 @app.route('/first')
 def helloo():
-    num=24
-    st='Chiki-briki'
-    b=None
-    return f'{num}, {st}, {b}'
+    chpek = None
+    num = 54
+    damki = 'chikibriki'
+    return f'{chpek}, {num}, {damki}'
 
 if __name__ == '__main__':
     app.run('0.0.0.0')
