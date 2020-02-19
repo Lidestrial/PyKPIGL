@@ -13,8 +13,7 @@ def helloo():
     num=24
     st='Chiki-briki'
     b=None
-    return f'{num}, {st}, {b}
-    return f'Sergey Ushakov, TI-71'
+    return f'{num}, {st}, {b}'
 
 if __name__ == '__main__':
     app.run('0.0.0.0')
