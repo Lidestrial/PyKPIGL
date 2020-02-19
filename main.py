@@ -10,8 +10,8 @@ def hello():
 @app.route('/first')
 def helloo():
     chpek = None
-    num = 54
-    damki = 'chikibriki'
+    num = 42
+    damki = 'chiki-briki'
     return f'{chpek}, {num}, {damki}'
 
 if __name__ == '__main__':
