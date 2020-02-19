@@ -2,13 +2,12 @@ from flask import Flask, escape, request
 
 app = Flask(__name__)
 
-@app.route('/first')
+@app.route('/')
 def hello():
     name = request.args.get("name", "World")
-    b=None
     return f'Sergey Ushakov, TI-71'
 
-@app.route('/')
+@app.route('/first')
 def hello():
     name = request.args.get("name", "World")
     num=24
