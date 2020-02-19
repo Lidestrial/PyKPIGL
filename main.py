@@ -9,7 +9,6 @@ def hello():
 
 @app.route('/first')
 def helloo():
-    name = request.args.get("name", "World")
     num=24
     st='Chiki-briki'
     b=None
