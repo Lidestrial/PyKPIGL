@@ -8,7 +8,7 @@ def hello():
     return f'Sergey Ushakov, TI-71'
 
 @app.route('/first')
-def hello():
+def helloo():
     name = request.args.get("name", "World")
     num=24
     st='Chiki-briki'
