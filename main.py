@@ -33,7 +33,7 @@ def second():
 @app.route('/third', methods=['GET','POST'])
 def third():
     if  request.method == 'GET':
-        return render_template('./third.html',content='\u0020',  deck=str(deck))
+        return render_template('./third.html')
     if request.method == 'POST':
         if "shuffle" in request.form:
             deck.shuffle()
