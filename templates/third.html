@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Test ur LUCK</title>
-<!--	<link rel="stylesheet" href="css/style.css">-->
-</head>
-<body>
-	<form action="/third" method="post">
-		<label>Print the card index</label><br>
-		<input type="text" id="index" name="index">
-        <button type="submit">index</button><br>
-		<button type="submit" id="pop" name="pop">pop</button>
-		<button type="submit" id="shuffle" name="shuffle">shuffle</button>
-		<button type="submit" id="get_random" name="get_random">get random</button>  
-	</form>
-</body>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test ur LUCK!</title>
+    </head>
+    <body>
+        <div>
+            <form action="/third" method="post">
+                <label>Put the index of card</label><br>
+                <input type="text" id="index" name="index">
+                <button type="submit">index</button><br>
+                <button type="submit" id="pop" name="pop">pop</button>
+                <button type="submit" id="shuffle" name="shuffle">shuffle</button>
+                <button type="submit" id="get_random" name="get_random">get random</button>
+            </form>
+        </div>
+        <br><br>{{content}}
+<!--        <br><br>{{deck}}-->
+    </body>
+</html>
