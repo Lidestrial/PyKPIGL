@@ -27,18 +27,23 @@ class Deck:
     def pop(self):
         try:
            return str(self.cards.pop())
-        except:
-            return "No cards to return"
+        except IndexError:
+            self.__init__()
+            return "No cards to return, deck was reorganized"
 
     def get_random(self):
         try:
             return str(random.choice(self.cards))
-        except:
-            return "No cards to return"
+        except IndexError:
+            self.__init__()
+            return "No cards to return, deck was reorgonised"
 
     def index(self, value):
         try:
             return str(self.cards[int(value)-1])
-        except:
-            return 'incorrect input'
+        except IndexError:
+            self.__init__()
+            return "No cards to return, deck was reorgonised"
+        except ValueError:
+            'incorrect input'
 
