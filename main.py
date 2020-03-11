@@ -1,6 +1,7 @@
 # @SEENPAY
 from flask import Flask, escape, request, render_template
-from deck import Deck
+from classes import Deck
+import requests
 
 app = Flask(__name__)
 deck = Deck()
@@ -72,11 +73,25 @@ def fourth2():
         result = []
         str1 = str(request.form.get('text3'))
         check = len(str1)
-        if check % 2 == 0 and ' ' + ' ' not in str1:  # or '  ' not in str1
+        if not check % 2 and ' ' + ' ' not in str1:  # or '  ' not in str1
             result = True
         else:
             result = False
         return render_template('./fourth2.html', content=result)
+
+
+@app.route('/fifth', methods=['GET', 'POST'])
+def fifth():
+    if request.method == 'GET':
+        return render_template('./fifth.html')
+    if request.method == 'POST':
+        users = request.form.get('text4')
+        res = requests.get(f'https://api.github.com/users/{users}')
+        if res.status_code == 404:
+            warning = "Person abandon"
+            return render_template("fifth.html", warning=warning)
+        avatar = res.json()['avatar_url']
+        return render_template("./fifth.html", content=avatar)
 
 
 if __name__ == '__main__':
