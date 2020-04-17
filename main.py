@@ -98,26 +98,32 @@ def fifth():
 @app.route('/sixths', methods=['GET', 'POST'])
 def sixths():
     if request.method == 'GET':
-        return render_template('./sixths.html')
+        return render_template('./sixths.html', content=farms)
     if request.method == 'POST':
-        print(request.form)
+        # print(request.form)
 
         if 'name' in request.form:
-            farm = Farm(request.form['name'], int(request.form['square']), int(request.form['sheeps']),
-                        int(request.form['cows']), int(request.form['chicks']))
-            farms[farm.name] = farm
-            return render_template('./sixths.html', content=farms)
+            try:
+                farm = Farm(request.form['name'], int(request.form['square'] or 0), int(request.form['sheeps'] or 0),
+                            int(request.form['cows'] or 0), int(request.form['chicks'] or 0))
+                message = "Farm Created"
+                farms[farm.name] = farm
+            except ValueError:
+                message = "Enter valid input!(nums)"
 
-        if 'f1' in request.form:
-            f1 = request.form['f1']
-            f2 = request.form['f2']
-            print(farms[f1].get_value())
-            if farms[f1] > farms[f2]:
-                return f'{f1} more pricy than {f2}'
-            elif farms[f1] < farms[f2]:
-                return f'{f2} more pricy than {f1}'
-            elif farms[f1] == farms[f2]:
-                return f'farms are equal ❤'
+        try:
+            if 'f1' in request.form:
+                f1 = request.form['f1']
+                f2 = request.form['f2']
+                if farms[f1] > farms[f2]:
+                    message = f'{f1} more pricy than {f2}'
+                elif farms[f1] < farms[f2]:
+                    message = f'{f2} more pricy than {f1}'
+                elif farms[f1] == farms[f2]:
+                    message = 'farms are equal ❤'
+        except KeyError:
+            message = 'Farm does not exist'
+        return render_template('./sixths.html', content=farms, message=message)
 
 
 if __name__ == '__main__':

@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-<!--	<link rel="stylesheet" href="css/style.css">-->
-<!--	<link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow&display=swap" rel="stylesheet">-->
+	<link rel="stylesheet" href="static/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
 	<title>Happy Farm</title>
 </head>
 <body>
@@ -19,27 +19,38 @@
 
 		</form>
 		<form autocomplete="off" action="/sixths" method="post">
-			<label>SelectFarms to compare</label><br>
+			<label>Select Farms to compare</label><br>
 			<input type="f1" id="f1" name="f1" placeholder="First Farm"><br>
 			<input type="f2" id="f2" name="f2" placeholder="Second Farm "><br>
 			<button type="compare">compare</button> <br>
 		</form>
 		<br><br>
 	</div>
-	<div class="gallery">
-		<table border style="width:70%">
-			{% for farm in content.values() %}
+
+	 	 <table border style="">
+	 	 	<thead>
+		        <tr>
+		          <th>Farms</th>
+		          <th>squares</th>
+		          <th>sheeps</th>
+		          <th>cows</th>
+		          <th>chikens</th>
+		        </tr>
+      		</thead>
+			{%for farm in content.values() %}
 
 				<tr>
 					<td>{{ farm.name }}</td>
 					<td>{{ farm.square }}</td>
-					<td>{{ farm.cows }}</td>
 					<td>{{ farm.sheeps }}</td>
+					<td>{{ farm.cows }}</td>
 					<td>{{ farm.chicks }}</td>
 				 </tr>
 
-			{% endfor %}
 
+			{% endfor %}
+			
 		</table>
 	</div>
+		{{message}}
 </body>
