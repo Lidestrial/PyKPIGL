@@ -1,10 +1,12 @@
 # @SEENPAY
-from flask import Flask, escape, request, render_template
-from classes import Deck
+from flask import Flask, request, render_template
+from classes.deck import Deck
+from classes.farm import Farm
 import requests
 
 app = Flask(__name__)
 deck = Deck()
+farms = {}
 
 
 @app.route('/')
@@ -60,7 +62,6 @@ def fourth1():
         input1 = int(request.form.get('text1'))
         input2 = int(request.form.get('text2'))
         lst = range(input1, input2)
-        result = []
         result = list(filter(lambda x: x % 3 == 0, lst))
         return render_template('./fourth.html', content=result)
 
@@ -92,6 +93,31 @@ def fifth():
             return render_template("fifth.html", warning=warning)
         avatar = res.json()['avatar_url']
         return render_template("./fifth.html", content=avatar)
+
+
+@app.route('/sixths', methods=['GET', 'POST'])
+def sixths():
+    if request.method == 'GET':
+        return render_template('./sixths.html')
+    if request.method == 'POST':
+        print(request.form)
+
+        if 'name' in request.form:
+            farm = Farm(request.form['name'], int(request.form['square']), int(request.form['sheeps']),
+                        int(request.form['cows']), int(request.form['chicks']))
+            farms[farm.name] = farm
+            return render_template('./sixths.html', content=farms)
+
+        if 'f1' in request.form:
+            f1 = request.form['f1']
+            f2 = request.form['f2']
+            print(farms[f1].get_value())
+            if farms[f1] > farms[f2]:
+                return f'{f1} more pricy than {f2}'
+            elif farms[f1] > farms[f2]:
+                return f'{f2} more pricy than {f1}'
+            elif farms[f1] == farms[f2]:
+                return f'farms are equal ❤'
 
 
 if __name__ == '__main__':

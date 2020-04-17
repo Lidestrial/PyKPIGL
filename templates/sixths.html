@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow&display=swap" rel="stylesheet">
+	<title>Happy Farm</title>
+</head>
+<body>
+	<div class="Table">
+		<form autocomplete="off" action="/sixths" method="post">
+			<label>Create Ur Happy Farm!</label><br>
+			<input type="name" id="name" name="name" placeholder="name"><br>
+			<input type="square" id="square" name="square" placeholder="square"><br>
+			<input type="sheeps" id="sheeps" name="sheeps" placeholder="sheeps"><br>
+			<input type="cows" id="cows" name="cows" placeholder="cows"><br>
+			<input type="chicks" id="chicks" name="chicks" placeholder="chiks"><br>
+			<button type="create">create farm</button> <br>
+
+		</form>
+		<form autocomplete="off" action="/sixths" method="post">
+			<label>SelectFarms to compare</label><br>
+			<input type="f1" id="f1" name="f1" placeholder="First Farm"><br>
+			<input type="f2" id="f2" name="f2" placeholder="Second Farm "><br>
+			<button type="compare">compare</button> <br>
+		</form>
+		<br><br>
+	</div>
+	<div class="gallery">
+		<table border style="width:70%">
+			{% for farm in content.values() %}
+
+				<tr>
+					<td>{{ farm.name }}</td>
+					<td>{{ farm.square }}</td>
+					<td>{{ farm.cows }}</td>
+					<td>{{ farm.sheeps }}</td>
+					<td>{{ farm.chicks }}</td>
+				 </tr>
+
+			{% endfor %}
+		</table>
+	</div>
+</body>
