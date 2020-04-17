@@ -114,7 +114,7 @@ def sixths():
             print(farms[f1].get_value())
             if farms[f1] > farms[f2]:
                 return f'{f1} more pricy than {f2}'
-            elif farms[f1] > farms[f2]:
+            elif farms[f1] < farms[f2]:
                 return f'{f2} more pricy than {f1}'
             elif farms[f1] == farms[f2]:
                 return f'farms are equal ❤'
