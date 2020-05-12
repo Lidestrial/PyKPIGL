@@ -2,11 +2,46 @@
 from flask import Flask, request, render_template
 from classes.deck import Deck
 from classes.farm import Farm
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 import requests
+from helpers import get_env_variable
+
+#from helpers import get_env_variable
 
 app = Flask(__name__)
 deck = Deck()
 farms = {}
+
+app.config['SQLALCHEMY_DATABASE_URI'] = get_env_variable #'postgres://ltgmovdvngewsc:c0ebb22749d43cf607977435a2454713eced2a89a5ee703bdc939081aee0ed58@ec2-3-222-30-53.compute-1.amazonaws.com:5432/d3qts4a8o2lf4p'
+app.config['DATABASE_URL'] = get_env_variable #'postgres://ltgmovdvngewsc:c0ebb22749d43cf607977435a2454713eced2a89a5ee703bdc939081aee0ed58@ec2-3-222-30-53.compute-1.amazonaws.com:5432/d3qts4a8o2lf4p'
+
+
+db = SQLAlchemy(app)
+migrate = Migrate()
+
+
+class DBFarm(db.Model):
+    __tablename__ = 'Farm'
+
+    id = db.Column(db.Integer, primary_key=True)
+    farm_name = db.Column(db.String(80), unique=True, nullable=False)
+    squares = db.Column(db.Integer, unique=False, nullable=True)
+    sheeps = db.Column(db.Integer, unique=False, nullable=True)
+    cows = db.Column(db.Integer, unique=False, nullable=True)
+    cheeks = db.Column(db.Integer, unique=False, nullable=True)
+
+    def __repr__(self):
+        return f'{self.farm_name, self.squares, self.sheeps, self.cows, self.cheeks}'
+
+
+def get_farms():
+    rows = DBFarm.query.all()
+    result = []
+    for row in rows:
+        farm = Farm(row.name, row.squares, row.sheeps, row.cows, row.cheeks)
+        result.append(farm)
+    return result
 
 
 @app.route('/')
@@ -16,7 +51,7 @@ def hello():
 
 
 @app.route('/first')
-def helloo():
+def first():
     chpek = None
     num = 42
     damki = 'chiki-briki'
@@ -98,27 +133,39 @@ def fifth():
 @app.route('/sixths', methods=['GET', 'POST'])
 def sixths():
     if request.method == 'GET':
-        return render_template('./sixths.html', content=farms)
+        return render_template('./sixths.html', content=get_farms())
     if request.method == 'POST':
         # print(request.form)
 
         if 'name' in request.form:
             try:
-                farm = Farm(request.form['name'], int(request.form['square'] or 0), int(request.form['sheeps'] or 0),
-                            int(request.form['cows'] or 0), int(request.form['chicks'] or 0))
+                # farm = Farm(request.form['name'], int(request.form['square'] or 0), int(request.form['sheeps'] or 0),
+                #             int(request.form['cows'] or 0), int(request.form['chicks'] or 0))
+                # message = "Farm Created"
+                # farms[farm.name] = farm
+                new_farm = DBFarm(farm_name=request.form['name'], squares=int(request.form['square'] or 0),
+                                  sheeps=int(request.form['sheeps'] or 0), cows=int(request.form['cows'] or 0),
+                                  cheeks=int(request.form['chicks'] or 0))
+                db.session.add(new_farm)
+                db.session.commit()
                 message = "Farm Created"
-                farms[farm.name] = farm
             except ValueError:
                 message = "Enter valid input!(nums)"
+                db.session.rollback()
+            except:
+                db.session.rollback()
+                raise
+
+        farms = get_farms()
 
         try:
             if 'f1' in request.form:
                 f1 = request.form['f1']
                 f2 = request.form['f2']
                 if farms[f1] > farms[f2]:
-                    message = f'{f1} more pricy than {f2}'
+                    message = f'{f1} more pricey than {f2}'
                 elif farms[f1] < farms[f2]:
-                    message = f'{f2} more pricy than {f1}'
+                    message = f'{f2} more pricey than {f1}'
                 elif farms[f1] == farms[f2]:
                     message = 'farms are equal ❤'
         except KeyError:
