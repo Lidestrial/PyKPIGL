@@ -14,7 +14,7 @@ app = Flask(__name__)
 deck = Deck()
 farms = {}
 
-app.config['SQLALCHEMY_DATABASE_URI'] = get_env_variable('DATABASE_URL') #'postgres://ltgmovdvngewsc:c0ebb22749d43cf607977435a2454713eced2a89a5ee703bdc939081aee0ed58@ec2-3-222-30-53.compute-1.amazonaws.com:5432/d3qts4a8o2lf4p'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') #'postgres://ltgmovdvngewsc:c0ebb22749d43cf607977435a2454713eced2a89a5ee703bdc939081aee0ed58@ec2-3-222-30-53.compute-1.amazonaws.com:5432/d3qts4a8o2lf4p'
 app.config['DATABASE_URL'] =  get_env_variable('DATABASE_URL') #'postgres://ltgmovdvngewsc:c0ebb22749d43cf607977435a2454713eced2a89a5ee703bdc939081aee0ed58@ec2-3-222-30-53.compute-1.amazonaws.com:5432/d3qts4a8o2lf4p'
 
 
