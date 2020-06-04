@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div class="Table">
-		<form autocomplete="off" action="/sixths" method="post">
+		<form autocomplete="off" action="/sixth" method="post">
 			<label>Create Ur Happy Farm!</label><br>
 			<input type="name" id="name" name="name" placeholder="name"><br>
 			<input type="square" id="square" name="square" placeholder="square"><br>
@@ -18,7 +18,7 @@
 			<button type="create">create farm</button> <br>
 
 		</form>
-		<form autocomplete="off" action="/sixths" method="post">
+		<form autocomplete="off" action="/sixth" method="post">
 			<label>Select Farms to compare</label><br>
 			<input type="f1" id="f1" name="f1" placeholder="First Farm"><br>
 			<input type="f2" id="f2" name="f2" placeholder="Second Farm "><br>
@@ -37,7 +37,7 @@
 		          <th>chikens</th>
 		        </tr>
       		</thead>
-			{%for farm in content.values() %}
+			{% for farm in content.values() %}
 
 				<tr>
 					<td>{{ farm.name }}</td>

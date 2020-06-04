@@ -3,10 +3,11 @@ from flask import Flask, request, render_template
 from classes.deck import Deck
 from classes.farm import Farm
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 import requests
 from helpers import get_env_variable
 import os
+from flask_script import Manager
+from flask_migrate import Migrate, MigrateCommand
 
 #from helpers import get_env_variable
 
@@ -19,8 +20,10 @@ app.config['DATABASE_URL'] =  get_env_variable('DATABASE_URL') #'postgres://ltgm
 
 
 db = SQLAlchemy(app)
-migrate = Migrate()
+migrate = Migrate(app, db)
 
+#manager = Manager(app)
+#manager.add_command('db', MigrateCommand)
 
 class DBFarm(db.Model):
     __tablename__ = 'Farm'
@@ -38,10 +41,10 @@ class DBFarm(db.Model):
 
 def get_farms():
     rows = DBFarm.query.all()
-    result = []
+    result = {}
     for row in rows:
-        farm = Farm(row.name, row.squares, row.sheeps, row.cows, row.cheeks)
-        result.append(farm)
+        farm = Farm(row.farm_name, row.squares, row.sheeps, row.cows, row.cheeks)
+        result[row.farm_name]=farm
     return result
 
 
@@ -131,19 +134,20 @@ def fifth():
         return render_template("./fifth.html", content=avatar)
 
 
-@app.route('/sixths', methods=['GET', 'POST'])
-def sixths():
+@app.route('/sixth', methods=['GET', 'POST'])
+def sixth():
     if request.method == 'GET':
-        return render_template('./sixths.html', content=get_farms())
+
+        farms = get_farms()
+
+        print(farms)
+        return render_template('./sixths.html', content=farms)
     if request.method == 'POST':
         # print(request.form)
 
         if 'name' in request.form:
             try:
-                # farm = Farm(request.form['name'], int(request.form['square'] or 0), int(request.form['sheeps'] or 0),
-                #             int(request.form['cows'] or 0), int(request.form['chicks'] or 0))
-                # message = "Farm Created"
-                # farms[farm.name] = farm
+
                 new_farm = DBFarm(farm_name=request.form['name'], squares=int(request.form['square'] or 0),
                                   sheeps=int(request.form['sheeps'] or 0), cows=int(request.form['cows'] or 0),
                                   cheeks=int(request.form['chicks'] or 0))
@@ -159,6 +163,8 @@ def sixths():
 
         farms = get_farms()
 
+        print(farms)
+
         try:
             if 'f1' in request.form:
                 f1 = request.form['f1']
@@ -172,6 +178,11 @@ def sixths():
         except KeyError:
             message = 'Farm does not exist'
         return render_template('./sixths.html', content=farms, message=message)
+        
+        
+@app.route('/seventh')
+def seventh():
+    return f'farm attached to db'
 
 
 if __name__ == '__main__':
